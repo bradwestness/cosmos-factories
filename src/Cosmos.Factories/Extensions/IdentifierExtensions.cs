@@ -1,9 +1,7 @@
 namespace Cosmos.Factories.Extensions;
 
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-[ExcludeFromCodeCoverage]
 internal static class IdentifierExtensions
 {
     public static string GetIdentifier(this object value, string propertyName = "id")

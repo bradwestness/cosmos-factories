@@ -1,4 +1,4 @@
-namespace Cosmos.Factories.Tests;
+namespace Cosmos.Factories.Tests.Fakes;
 
 using System.Net;
 using System.Threading.Tasks;

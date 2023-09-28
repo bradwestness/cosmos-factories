@@ -1,4 +1,4 @@
-namespace Cosmos.Factories.Tests;
+namespace Cosmos.Factories.Tests.Extensions;
 
 using Cosmos.Factories.Extensions;
 using Cosmos.Factories.Fakes;
@@ -27,7 +27,7 @@ public sealed class ServiceCollectionExtensionTests
     }
 
     [Fact]
-    public void AddTestCosmosClient_RegistersExpectedServices()
+    public void AddFakeCosmosClient_RegistersExpectedServices()
     {
         var services = new ServiceCollection();
 

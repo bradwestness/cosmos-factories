@@ -1,8 +1,6 @@
 namespace Cosmos.Factories.Extensions;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
 internal static class EnumerableExtensions
 {
     public static IEnumerable<TOutput> ToTyped<TInput, TOutput>(this IEnumerable<TInput> values)

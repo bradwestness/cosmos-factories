@@ -21,14 +21,14 @@ In your normal dependency registration (when not running in a test context):
 ```csharp
 public void RegisterCosmos(IServiceCollection services)
 {
-	services.AddCosmosFactories();
-	services.AddSingleton<CosmosClient>(provider =>
-	{
-		var builder = new CosmosClientBuilder();
+  services.AddCosmosFactories();
+  services.AddSingleton<CosmosClient>(provider =>
+  {
+    var builder = new CosmosClientBuilder();
 
-		// configure your builder		
-		return builder.Build();
-	});
+    // configure your builder    
+    return builder.Build();
+  });
 }
 ```
 
@@ -40,8 +40,8 @@ actually needing to talk to a Cosmos instance or run the Cosmos emulator:
 ```csharp
 public void RegisterCosmos(IServiceCollection services)
 {
-	services.AddCosmosFactories();
-	servics.AddFakeCosmosClient();
+  services.AddCosmosFactories();
+  servics.AddFakeCosmosClient();
 }
 ```
 
@@ -54,32 +54,32 @@ inject an `ICosmosContainerFactory` and an `IFeedIteratorFactory` instead:
 ```csharp
 public sealed class UserService : IUserService
 {
-	private readonly Container _container;
-	private readonly IFeedIteratorFactory _feedIteratorFactory;
+  private readonly Container _container;
+  private readonly IFeedIteratorFactory _feedIteratorFactory;
 
-	public UserService(
-		ICosmosContainerFactory containerFactory,
-		IFeedIteratorFactory feedIteratorFactory)
-	{
-		_container = containerFactory.GetContainer("MyDatabase", "Users");
-		_feedIteratorFactory = feedIteratorFactory;
-	}
+  public UserService(
+    ICosmosContainerFactory containerFactory,
+    IFeedIteratorFactory feedIteratorFactory)
+  {
+    _container = containerFactory.GetContainer("MyDatabase", "Users");
+    _feedIteratorFactory = feedIteratorFactory;
+  }
 
-	public async IAsyncEnumerable<User> GetActive([EnumeratorCancellation] CancellationToken ct)
-	{
-		var query = _container.GetItemLinqQueryable<User>()
-			.Where(x => x.IsActive);
+  public async IAsyncEnumerable<User> GetActive([EnumeratorCancellation] CancellationToken ct)
+  {
+    var query = _container.GetItemLinqQueryable<User>()
+      .Where(x => x.IsActive);
 
-		using var iterator = _feedIterator.GetFeedIterator(queryable);
+    using var iterator = _feedIterator.GetFeedIterator(queryable);
 
-		while (iterator.HasMoreResults)
-		{
-			foreach (var user in await iterator.ReadNextAsync(ct))
-			{
-				yield return user;
-			}
-		}
-	}
+    while (iterator.HasMoreResults)
+    {
+      foreach (var user in await iterator.ReadNextAsync(ct))
+      {
+        yield return user;
+      }
+    }
+  }
 }
 ```
 
