@@ -46,7 +46,7 @@ internal sealed class FakeCosmosContainer : Container
 
         if (this.items.TryAdd(key, item))
         {
-            return new FakeItemResponse<T>(item).AsTask();
+            return new FakeItemResponse<T>(item, HttpStatusCode.Created).AsTask();
         }
 
         return new FakeItemResponse<T>(HttpStatusCode.Conflict).AsTask();
@@ -77,7 +77,7 @@ internal sealed class FakeCosmosContainer : Container
         if (this.items.TryRemove(id, out var value)
             && value is T item)
         {
-            return new FakeItemResponse<T>(item).AsTask();
+            return new FakeItemResponse<T>(item, HttpStatusCode.NoContent).AsTask();
         }
 
         return new FakeItemResponse<T>(HttpStatusCode.NotFound).AsTask();

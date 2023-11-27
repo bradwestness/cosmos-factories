@@ -8,7 +8,7 @@ using Microsoft.Azure.Cosmos;
 public sealed class FakeContainerTests
 {
     [Fact]
-    public async Task CreateItemAsync_ReturnsOk()
+    public async Task CreateItemAsync_ReturnsCreated()
     {
         var container = new FakeCosmosContainer("FakeContainer");
         Assert.NotNull(container);
@@ -17,7 +17,7 @@ public sealed class FakeContainerTests
 
         var response = await container.CreateItemAsync(expected);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public sealed class FakeContainerTests
 
         var okResponse = await container.CreateItemAsync(expected);
         Assert.NotNull(okResponse);
-        Assert.Equal(HttpStatusCode.OK, okResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, okResponse.StatusCode);
 
         // trying to upsert the item again
         // with the same ID should result in a conflict
@@ -40,7 +40,7 @@ public sealed class FakeContainerTests
     }
 
     [Fact]
-    public async Task DeleteItemAsync_ItemExists_ReturnsOk()
+    public async Task DeleteItemAsync_ItemExists_ReturnsNoContent()
     {
         var container = new FakeCosmosContainer("FakeContainer");
         Assert.NotNull(container);
@@ -49,11 +49,11 @@ public sealed class FakeContainerTests
 
         var createResponse = await container.CreateItemAsync(expected);
         Assert.NotNull(createResponse);
-        Assert.Equal(HttpStatusCode.OK, createResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
         var deleteResponse = await container.DeleteItemAsync<Person>(expected.id, PartitionKey.None);
         Assert.NotNull(deleteResponse);
-        Assert.Equal(HttpStatusCode.OK, deleteResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
     }
 
     [Fact]
